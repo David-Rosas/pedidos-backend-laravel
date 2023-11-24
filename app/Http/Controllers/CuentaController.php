@@ -9,27 +9,41 @@ class CuentaController extends Controller
 {
     public function index()
     {
-        $cuentas = Cuenta::with('pedidos')->get();
-
-        return response()->json(['cuentas' => $cuentas], 200);
+        try {
+            $cuentas = Cuenta::with('pedidos')->get();
+            return response()->json(['cuentas' => $cuentas], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage(), 'line' => $e->getLine(), 'type' => get_class($e)], 500);
+        }
     }
 
     public function store(CuentaRequest $request)
     {
-        $cuenta = Cuenta::create($request->all());
-
-        return response()->json(['cuenta' => $cuenta], 201);
+        try {
+            $cuenta = Cuenta::create($request->all());
+            return response()->json(['cuenta' => $cuenta], 201);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage(), 'line' => $e->getLine(), 'type' => get_class($e)], 500);
+        }
     }
 
     public function update(CuentaRequest $request, Cuenta $cuenta)
     {
-        $cuenta->update($request->all());
-        return response()->json($cuenta, 200);
+        try {
+            $cuenta->update($request->all());
+            return response()->json($cuenta, 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage(), 'line' => $e->getLine(), 'type' => get_class($e)], 500);
+        }
     }
 
     public function destroy(Cuenta $cuenta)
     {
-        $cuenta->delete();
-        return response()->json(null, 204);
+        try {
+            $cuenta->delete();
+            return response()->json(null, 204);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage(), 'line' => $e->getLine(), 'type' => get_class($e)], 500);
+        }
     }
 }

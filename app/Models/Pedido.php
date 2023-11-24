@@ -8,10 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Pedido extends Model
 {
     use HasFactory;
-    protected $fillable = ['idCuenta', 'producto', 'cantidad', 'valor', 'total'];
+    protected $fillable = ['cuenta_id', 'producto', 'cantidad', 'valor', 'total'];
 
     public function cuenta()
     {
-        return $this->belongsTo(Cuenta::class, 'idCuenta');
+        return $this->belongsTo(Cuenta::class, 'cuenta_id');
     }
 }

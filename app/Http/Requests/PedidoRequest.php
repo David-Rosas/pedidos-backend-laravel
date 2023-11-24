@@ -11,7 +11,7 @@ class PedidoRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,7 @@ class PedidoRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'idCuenta' => 'required|exists:cuentas,id',
+            'cuenta_id' => 'required|exists:cuentas,id',
             'producto' => 'required|string|max:255',
             'cantidad' => 'required|integer|min:1',
             'valor' => 'required|numeric|min:0',

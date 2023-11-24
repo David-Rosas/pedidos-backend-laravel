@@ -36,7 +36,8 @@ class CuentaController extends Controller
     public function show(Cuenta $cuenta)
     {
         try {
-            return response()->json($cuenta, 200);
+            $cuentaConPedidos = $cuenta->with('pedidos')->get();
+            return response()->json($cuentaConPedidos, 200);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage(), 'line' => $e->getLine(), 'type' => get_class($e)], 500);
         }

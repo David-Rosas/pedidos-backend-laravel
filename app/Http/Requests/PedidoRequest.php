@@ -2,9 +2,10 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
-class PedidoRequest extends FormRequest
+class PedidoRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -19,14 +20,27 @@ class PedidoRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
-    public function rules(): array
+   
+    public function validateField(Request $request)
     {
-        return [
+
+        $validator = Validator::make($request->all(), [
             'cuenta_id' => 'required|exists:cuentas,id',
             'producto' => 'required|string|max:255',
             'cantidad' => 'required|integer|min:1',
             'valor' => 'required|numeric|min:0',
             'total' => 'required|numeric|min:0',
-        ];
+        ]);
+    
+        if ($validator->fails()) {
+            return [
+                    'success' => false,
+                    'message' => $validator->errors()->first(),
+                    'error' => $validator->errors(),
+                    'status' => 406,
+            ];
+        }else{
+            return true;
+        }
     }
 }

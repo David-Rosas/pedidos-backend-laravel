@@ -7,7 +7,12 @@ use App\Http\Requests\PedidoRequest;
 use Illuminate\Http\Request;
 
 class PedidoController extends Controller
-{
+{    
+    /**
+     * Method index
+     *
+     * @return void
+     */
     public function index()
     {
         try {
@@ -17,7 +22,14 @@ class PedidoController extends Controller
             return response()->json(['error' => $e->getMessage(), 'line' => $e->getLine(), 'type' => get_class($e)], 500);
         }
     }
-
+    
+    /**
+     * Method store
+     *
+     * @param Request $request [explicite description]
+     *
+     * @return void
+     */
     public function store(Request $request)
     {
         try {
@@ -34,8 +46,32 @@ class PedidoController extends Controller
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage(), 'line' => $e->getLine(), 'type' => get_class($e)], 500);
         }
-    }
+    }    
+    /**
+     * Method show
+     *
+     * @param Pedido $pedido [explicite description]
+     *
+     * @return void
+     */
+    public function show(Pedido $pedido)
+    {
+        try {
+            return response()->json($pedido, 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage(), 'line' => $e->getLine(), 'type' => get_class($e)], 500);
+        }
 
+    }
+    
+    /**
+     * Method update
+     *
+     * @param Request $request [explicite description]
+     * @param Pedido $pedido [explicite description]
+     *
+     * @return void
+     */
     public function update(Request $request, Pedido $pedido)
     {
         try {
@@ -43,7 +79,7 @@ class PedidoController extends Controller
             $validate = (new PedidoRequest())->validateField($request);
 
             if ($validate === true) {
-                
+
                 $pedido->update($request->all());
                 return response()->json($pedido, 200);
             } else {
@@ -53,7 +89,14 @@ class PedidoController extends Controller
             return response()->json(['error' => $e->getMessage(), 'line' => $e->getLine(), 'type' => get_class($e)], 500);
         }
     }
-
+    
+    /**
+     * Method destroy
+     *
+     * @param Pedido $pedido [explicite description]
+     *
+     * @return void
+     */
     public function destroy(Pedido $pedido)
     {
         try {

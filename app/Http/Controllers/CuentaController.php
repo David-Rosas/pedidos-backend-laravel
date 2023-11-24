@@ -7,7 +7,12 @@ use Illuminate\Http\Request;
 use App\Http\Requests\CuentaRequest;
 
 class CuentaController extends Controller
-{
+{    
+    /**
+     * Method index
+     *
+     * @return void
+     */
     public function index()
     {
         try {
@@ -17,7 +22,14 @@ class CuentaController extends Controller
             return response()->json(['error' => $e->getMessage(), 'line' => $e->getLine(), 'type' => get_class($e)], 500);
         }
     }
-
+    
+    /**
+     * Method store
+     *
+     * @param Request $request [explicite description]
+     *
+     * @return void
+     */
     public function store(Request $request)
     {
         try {
@@ -32,7 +44,14 @@ class CuentaController extends Controller
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage(), 'line' => $e->getLine(), 'type' => get_class($e)], 500);
         }
-    }
+    }    
+    /**
+     * Method show
+     *
+     * @param Cuenta $cuenta [explicite description]
+     *
+     * @return void
+     */
     public function show(Cuenta $cuenta)
     {
         try {
@@ -42,7 +61,15 @@ class CuentaController extends Controller
             return response()->json(['error' => $e->getMessage(), 'line' => $e->getLine(), 'type' => get_class($e)], 500);
         }
     }
-
+    
+    /**
+     * Method update
+     *
+     * @param Request $request [explicite description]
+     * @param Cuenta $cuenta [explicite description]
+     *
+     * @return void
+     */
     public function update(Request $request, Cuenta $cuenta)
     {
         try {
@@ -71,7 +98,14 @@ class CuentaController extends Controller
             return response()->json(['error' => $e->getMessage(), 'line' => $e->getLine(), 'type' => get_class($e)], 500);
         }
     }
-
+    
+    /**
+     * Method destroy
+     *
+     * @param Cuenta $cuenta [explicite description]
+     *
+     * @return void
+     */
     public function destroy(Cuenta $cuenta)
     {
         try {

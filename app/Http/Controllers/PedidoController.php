@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Pedido;
+use App\Http\Requests\PedidoRequest;
 
 class PedidoController extends Controller
 {
@@ -14,14 +14,14 @@ class PedidoController extends Controller
         return response()->json(['pedidos' => $pedidos], 200);
     }
 
-    public function store(Request $request)
+    public function store(PedidoRequest $request)
     {
         $pedido = Pedido::create($request->all());
 
         return response()->json(['pedido' => $pedido], 201);
     }
 
-    public function update(Request $request, Pedido $pedido)
+    public function update(PedidoRequest $request, Pedido $pedido)
     {
         $pedido->update($request->all());
         return response()->json($pedido, 200);

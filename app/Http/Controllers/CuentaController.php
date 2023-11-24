@@ -1,8 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\Cuenta;
-use Illuminate\Http\Request;
+use App\Http\Requests\CuentaRequest;
 
 class CuentaController extends Controller
 {
@@ -13,14 +14,14 @@ class CuentaController extends Controller
         return response()->json(['cuentas' => $cuentas], 200);
     }
 
-    public function store(Request $request)
+    public function store(CuentaRequest $request)
     {
         $cuenta = Cuenta::create($request->all());
 
         return response()->json(['cuenta' => $cuenta], 201);
     }
 
-    public function update(Request $request, Cuenta $cuenta)
+    public function update(CuentaRequest $request, Cuenta $cuenta)
     {
         $cuenta->update($request->all());
         return response()->json($cuenta, 200);

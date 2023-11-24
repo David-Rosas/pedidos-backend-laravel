@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cuenta;
+use Illuminate\Http\Request;
 use App\Http\Requests\CuentaRequest;
 
 class CuentaController extends Controller
@@ -17,21 +18,33 @@ class CuentaController extends Controller
         }
     }
 
-    public function store(CuentaRequest $request)
+    public function store(Request $request)
     {
         try {
-            $cuenta = Cuenta::create($request->all());
-            return response()->json(['cuenta' => $cuenta], 201);
+            // validar campos en un archivo aparte para reutilizarlo.
+            $validate = (new CuentaRequest())->validateField($request);
+            if ($validate === true) {
+                $cuenta = Cuenta::create($request->all());
+                return response()->json(['cuenta' => $cuenta], 201);
+            } else {
+                return response()->json($validate, 406);
+            }
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage(), 'line' => $e->getLine(), 'type' => get_class($e)], 500);
         }
     }
 
-    public function update(CuentaRequest $request, Cuenta $cuenta)
+    public function update(Request $request, Cuenta $cuenta)
     {
         try {
-            $cuenta->update($request->all());
-            return response()->json($cuenta, 200);
+            // validar campos en un archivo aparte para reutilizarlo.
+            $validate = (new CuentaRequest())->validateField($request);
+            if ($validate === true) {
+                $cuenta->update($request->all());
+                return response()->json($cuenta, 200);
+            } else {
+                return response()->json($validate, 406);
+            }
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage(), 'line' => $e->getLine(), 'type' => get_class($e)], 500);
         }

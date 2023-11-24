@@ -1,30 +1,34 @@
 <?php
 
 namespace App\Http\Requests;
-
-use Illuminate\Foundation\Http\FormRequest;
-
-class CuentaRequest extends FormRequest
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+class CuentaRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
-    public function authorize(): bool
-    {
-        return true;
-    }
-
     /**
      * Get the validation rules that apply to the request.
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
-    public function rules(): array
+    
+    public function validateField(Request $request)
     {
-        return [
+
+        $validator = Validator::make($request->all(), [
             'nombre' => 'required|string|max:255',
             'email' => 'required|email|unique:cuentas,email',
             'telefono' => 'required|string|max:20',
-        ];
+        ]);
+    
+        if ($validator->fails()) {
+            return [
+                    'success' => false,
+                    'message' => $validator->errors()->first(),
+                    'error' => $validator->errors(),
+                    'status' => 406,
+            ];
+        }else{
+            return true;
+        }
     }
 }

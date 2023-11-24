@@ -16,7 +16,7 @@ class CuentaRequest
 
         $validator = Validator::make($request->all(), [
             'nombre' => 'required|string|max:255',
-            'email' => 'required|email|unique:cuentas,email',
+            'email' => 'required|email',
             'telefono' => 'required|string|max:20',
         ]);
     

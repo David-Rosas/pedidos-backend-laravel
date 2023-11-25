@@ -22,7 +22,7 @@ class EventPedidos
     public function __construct($data)
     {
         $this->data = $data;
-        //TO DO Tratar de  hacer que funcione sin esta libreria
+        //TO DO Tratar de  hacer que funcione sin esta libreria, con pusher funciona perfecto.
         try {
         $websocket = new Client('ws://'.env('PUSHER_HOST').':'.env('PUSHER_PORT'));
 

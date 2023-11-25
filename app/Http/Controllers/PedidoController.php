@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Pedido;
 use App\Http\Requests\PedidoRequest;
 use Illuminate\Http\Request;
+use App\Events\EventPedidos;
+
 
 class PedidoController extends Controller
-{    
+{
     /**
      * Method index
      *
@@ -22,7 +24,7 @@ class PedidoController extends Controller
             return response()->json(['error' => $e->getMessage(), 'line' => $e->getLine(), 'type' => get_class($e)], 500);
         }
     }
-    
+
     /**
      * Method store
      *
@@ -39,6 +41,10 @@ class PedidoController extends Controller
             if ($validate === true) {
 
                 $pedido = Pedido::create($request->all());
+                $data = $pedido->with('cuenta')->find($pedido->id)->toArray();
+
+                broadcast(new EventPedidos($data))->toOthers();
+
                 return response()->json(['pedido' => $pedido], 201);
             } else {
                 return response()->json($validate, 406);
@@ -46,7 +52,7 @@ class PedidoController extends Controller
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage(), 'line' => $e->getLine(), 'type' => get_class($e)], 500);
         }
-    }    
+    }
     /**
      * Method show
      *
@@ -61,9 +67,8 @@ class PedidoController extends Controller
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage(), 'line' => $e->getLine(), 'type' => get_class($e)], 500);
         }
-
     }
-    
+
     /**
      * Method update
      *
@@ -89,7 +94,7 @@ class PedidoController extends Controller
             return response()->json(['error' => $e->getMessage(), 'line' => $e->getLine(), 'type' => get_class($e)], 500);
         }
     }
-    
+
     /**
      * Method destroy
      *

@@ -5,6 +5,18 @@
  */
 
 import axios from 'axios';
+import Echo from 'laravel-echo';
+
+process.env.MIX_SOCKET_IO_DEBUG = true;
+
+window.Echo = new Echo({
+    broadcaster: 'websocket',
+    client: WebSocket,
+    host: 'ws://localhost:3000',
+    withCredentials: false,
+    debug: true,
+});
+
 window.axios = axios;
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
